@@ -5,12 +5,143 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente la mayor edad
 
 Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuevamente, borrando los inputs ya creados (investigar cómo en MDN).
 */
+document.querySelector("[id=mostrar_formularios]").onclick = function() {
+ 
+    let cantidadIntegrantes = document.querySelector("#cantidad_integrantes").value;
+    console.log(cantidadIntegrantes);
+    //validarCantidadIntegrantes(cantidadIntegrantes);
+    desplegarFormularioEdades(cantidadIntegrantes);
+
+}
+
+function desplegarFormularioEdades(cantidadIntegrantes){
+    let nuevoInput = "";
+    let nuevoParrafo = "";
+    let textoParrafo = "";
+    let salto = "";
+    const nodoPagina = document.querySelector("[id=formulario_ingreso_edades]");
+   
+    
+    for (let i = 1; i <= cantidadIntegrantes; i++) {
+       
+        nuevoParrafo = document.createElement("label");
+        textoParrafo = document.createTextNode("Edad del integrante: ");
+        nuevoParrafo.appendChild(textoParrafo);
+        nodoPagina.appendChild(nuevoParrafo);
+
+        nuevoInput = document.createElement("input");
+        nuevoInput.setAttribute("type", "number");
+        nuevoInput.setAttribute("id", "edadIntegrante" + i);
+        nodoPagina.appendChild(nuevoInput);
+
+        salto = document.createElement("br");
+        nodoPagina.appendChild(salto);
+        salto = document.createElement("br");
+        nodoPagina.appendChild(salto);
+    }
+}
+ 
+//ACLARACION MIA: ESTO FUNCIONA PERO VOY A HACERLO COMO EN EL CURSO
+/*
+let i=1;
+ while (i<= cantidadIntegrantes) {
+var y = document.createElement("INPUT");
+y.setAttribute("type", "text");
+y.setAttribute("Placeholder", "Name_" + i);
+y.setAttribute("Name", "Name_" + i);
+document.getElementById("formulario_ingreso_edades").appendChild(y);
+i++;
+}
+*/
+
+
+
+document.querySelector("[id=calculo_edades]").onclick = function() {
+
+let cajas = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
+let edades = [];
+
+for (i=0; i<cajas.length; i++){
+  edades[i] = Number(cajas[i].value);
+}
+
+//calular la edad mas grande
+let edad_grande = 0; //lo defino afuera para que sea global y poder usarlo en el ejercicio 2
+						
+function calcularMayorEdad() {
+		for (i=0; i<edades.length; i++) {
+			if (edades[i] > edad_grande) {
+				edad_grande = edades[i];
+			}
+		}
+		return edad_grande;
+	}
+	
+
+function calcularMenorEdad(){
+  let edad_menor;
+  for (i=0; i<edades.length; i++){
+    if (edades[i] < edad_grande){
+      edad_menor = edades[i];
+      edad_grande = edad_menor;
+    }
+  }
+  return edad_menor;
+}
+
+function calcularPromedioEdad(){
+  let suma_edades = 0;
+  for (i=0; i<edades.length; i++){
+    suma_edades = suma_edades + edades[i];
+  }
+  return suma_edades / edades.length;
+}
+
+
+
+document.querySelector("#mayor_edad").innerText = `La mayor edad del grupo familiar es ${calcularMayorEdad()}`;
+document.querySelector("#menor_edad").innerText = `La menor edad del grupo familiar es ${calcularMenorEdad()}`;
+document.querySelector("#promedio_edad").innerText = `El promedio de edad del grupo familiar es ${calcularPromedioEdad()}`;
+
+}
+
+
+
+borrar.onclick = (e)=> { 
+ 
+  let ems = document.querySelectorAll("em");
+  for (i=0; i < ems.length; i++){
+    ems[i].innerText = "";
+  }
+  
+  document.getElementById('formulario_cantidad_integrantes').reset();
+  //document.getElementById('formulario_ingreso_edades').reset();
+
+let elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
+for (i=0; i<elementos.length; i++){
+  if (elementos[i].type != "button"){
+  elementos[i].remove();
+}
+}
+ elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("label");
+for (i=0; i<elementos.length; i++){
+  elementos[i].remove();
+}
+ elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("br");
+for (i=0; i<elementos.length; i++){
+  elementos[i].remove();
+}
+}
+
+
 
 
 /*
 TAREA:
-Crear una interfaz que permita agregar ó quitar (botones agregar y quitar) inputs+labels para completar el salario anual de cada integrante de la familia que trabaje.
-Al hacer click en "calcular", mostrar en un elemento pre-existente el mayor salario anual, menor salario anual, salario anual promedio y salario mensual promedio.
+Crear una interfaz que permita agregar ó quitar (botones agregar y quitar) inputs+labels 
+para completar el salario anual de cada integrante de la familia que trabaje.
+Al hacer click en "calcular", mostrar en un elemento pre-existente el mayor salario anual, 
+menor salario anual, salario anual promedio y salario mensual promedio.
 
 Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como 0).
 */
