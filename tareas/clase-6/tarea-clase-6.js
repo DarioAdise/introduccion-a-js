@@ -8,9 +8,19 @@ Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuev
 document.querySelector("[id=mostrar_formularios]").onclick = function() {
  
     let cantidadIntegrantes = document.querySelector("#cantidad_integrantes").value;
-    console.log(cantidadIntegrantes);
-    //validarCantidadIntegrantes(cantidadIntegrantes);
-    desplegarFormularioEdades(cantidadIntegrantes);
+    //validar cantidad integrantes
+    if (cantidadIntegrantes <= 0){
+      alert("La cantidad de integrantes no puede ser menor a 0");
+      return false;
+    }
+    if (cantidadIntegrantes > 10){
+      alert("Lo siento, la cantidad de integrantes no puede ser mayor a 10");
+      return false;
+    }
+
+    //disablo el button
+    document.getElementById("mostrar_formularios").disabled = true;
+    desplegarFormularioEdades(cantidadIntegrantes);    
 
 }
 
@@ -18,26 +28,26 @@ function desplegarFormularioEdades(cantidadIntegrantes){
     let nuevoInput = "";
     let nuevoParrafo = "";
     let textoParrafo = "";
-    let salto = "";
-    const nodoPagina = document.querySelector("[id=formulario_ingreso_edades]");
    
-    
+    let divisor = ""; 
+    const nodoPagina = document.querySelector("[id=formulario_ingreso_edades]");
+  
     for (let i = 1; i <= cantidadIntegrantes; i++) {
-       
+      
+        divisor = document.createElement("div");
+        divisor.setAttribute("class", "integrante");
+
         nuevoParrafo = document.createElement("label");
         textoParrafo = document.createTextNode("Edad del integrante: ");
         nuevoParrafo.appendChild(textoParrafo);
-        nodoPagina.appendChild(nuevoParrafo);
 
         nuevoInput = document.createElement("input");
         nuevoInput.setAttribute("type", "number");
         nuevoInput.setAttribute("id", "edadIntegrante" + i);
-        nodoPagina.appendChild(nuevoInput);
-
-        salto = document.createElement("br");
-        nodoPagina.appendChild(salto);
-        salto = document.createElement("br");
-        nodoPagina.appendChild(salto);
+        
+        divisor.appendChild(nuevoParrafo);
+        divisor.appendChild(nuevoInput);
+        nodoPagina.appendChild(divisor);
     }
 }
  
@@ -58,14 +68,31 @@ i++;
 
 document.querySelector("[id=calculo_edades]").onclick = function() {
 
+//validar edades
 let cajas = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
-let edades = [];
+let senial = 0;
 
+for (i=0; i<cajas.length;i++){
+  
+  if (cajas[i].value <1 || cajas[i].value > 120){
+    alert("Debe ingresar una edad entre 1 y 120");
+    senial = 1;
+		return false;
+  }
+}
+if (senial == 0){
+  realizarCalculos();
+}
+}
+
+function realizarCalculos(){
+cajas = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
+let edades = [];
 for (i=0; i<cajas.length; i++){
   edades[i] = Number(cajas[i].value);
 }
 
-//calular la edad mas grande
+//calcular la edad mas grande
 let edad_grande = 0; //lo defino afuera para que sea global y poder usarlo en el ejercicio 2
 						
 function calcularMayorEdad() {
@@ -81,7 +108,7 @@ function calcularMayorEdad() {
 function calcularMenorEdad(){
   let edad_menor;
   for (i=0; i<edades.length; i++){
-    if (edades[i] < edad_grande){
+    if (edades[i] <= edad_grande){
       edad_menor = edades[i];
       edad_grande = edad_menor;
     }
@@ -109,28 +136,22 @@ document.querySelector("#promedio_edad").innerText = `El promedio de edad del gr
 
 borrar.onclick = (e)=> { 
  
+  //vuelvo a activar el boton de mostrar formularios
+  document.getElementById("mostrar_formularios").disabled = false;
+
   let ems = document.querySelectorAll("em");
   for (i=0; i < ems.length; i++){
     ems[i].innerText = "";
   }
   
   document.getElementById('formulario_cantidad_integrantes').reset();
-  //document.getElementById('formulario_ingreso_edades').reset();
 
-let elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
-for (i=0; i<elementos.length; i++){
-  if (elementos[i].type != "button"){
-  elementos[i].remove();
-}
-}
- elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("label");
+let elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll(".integrante");
+
 for (i=0; i<elementos.length; i++){
   elementos[i].remove();
 }
- elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("br");
-for (i=0; i<elementos.length; i++){
-  elementos[i].remove();
-}
+
 }
 
 
