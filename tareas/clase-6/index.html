@@ -1,42 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Tarea Clase 6</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Tarea Clase 6</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
 </head>
 <body>
-    <h2>Encuesta de edades de los componentes del grupo familiar</h2>
+  <h2>Encuesta de edades de los componentes del grupo familiar</h2>
   
-    <form id="formulario_cantidad_integrantes" style="width: 80%; border-width: 1px; border-color: black; border-style: solid;"">
-    <div>
-        Ingrese número de integrantes del grupo familiar:
-        <input type="number" id="cantidad_integrantes" /> 
-        <input type="button" value="Mostrar formularios" id="mostrar_formularios" />
-    </div>
-    </form>
-
-<form id="formulario_ingreso_edades" style="width: 80%; border-width: 1px; border-color: blue; border-style: solid;""></form>
-
+<form id="formulario_cantidad_integrantes" style="width: 80%; border-width: 1px; border-color: black; border-style: solid;">
+  <div>
+    Ingrese número de integrantes del grupo familiar:
+    <input type="number" id="cantidad_integrantes" /> 
+    <input type="button" value="Mostrar formularios" id="mostrar_formularios" />
+    <em id="validacion_cantidad_integrantes" style="color: red;"></em>
+  </div>
 </form>
+
+<form id="formulario_ingreso_edades" style="width: 80%; border-width: 1px; border-color: blue; border-style: solid;">
+</form>
+
+<div>
+  <em id="mayor_edad"></em><br>
+  <em id="menor_edad"></em><br>
+  <em id="promedio_edad"></em><br>
+</div>
+
 <form>
-    <em id="mayor_edad"></em><br>
-    <em id="menor_edad"></em><br>
-    <em id="promedio_edad"></em><br>
-
+  <input type="button" value="Calcular" id="calculo_edades" disabled />
+  <input type="button" value="Borrar todo" id="borrar" />
 </form>
 
+<script src='tarea-clase-6.js'></script>
 
-<form>
-<input type="button" value="Calcular" id="calculo_edades" />
-<input type="button" value="Borrar todo" id="borrar" />
-</form>
-
- <script src='tarea-clase-6.js'></script>
- <script src='validar-datos.js'></script>
 </body>
 </html>
 

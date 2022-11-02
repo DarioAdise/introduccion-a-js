@@ -6,29 +6,34 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente la mayor edad
 Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuevamente, borrando los inputs ya creados (investigar cómo en MDN).
 */
 document.querySelector("[id=mostrar_formularios]").onclick = function() {
- 
-    let cantidadIntegrantes = document.querySelector("#cantidad_integrantes").value;
+  
+    let cantidadIntegrantes = document.querySelector("[id=cantidad_integrantes]").value;
     //validar cantidad integrantes
-    if (cantidadIntegrantes <= 0){
-      alert("La cantidad de integrantes no puede ser menor a 0");
+    if (cantidadIntegrantes < 1){
+      document.querySelector("[id=validacion_cantidad_integrantes").innerText =
+        "La cantidad de integrantes no puede ser menor a 1";
       return false;
     }
     if (cantidadIntegrantes > 10){
-      alert("Lo siento, la cantidad de integrantes no puede ser mayor a 10");
+      document.querySelector("[id=validacion_cantidad_integrantes").innerText =
+        "Lo siento, la cantidad de integrantes no puede ser mayor a 10";
       return false;
     }
+    //si pasa las validaciones borro el cartel de advertencia
+    document.querySelector("[id=validacion_cantidad_integrantes").innerText = "";
 
-    //disablo el button
-    document.getElementById("mostrar_formularios").disabled = true;
-    desplegarFormularioEdades(cantidadIntegrantes);    
+    //inhabilito el boton de mostrar formularios mientras haya inputs validos para trabajar
+    document.querySelector("[id=mostrar_formularios]").disabled = true;
 
+    //activo el botón de realizar calculos porque se ingreso una cantidad de inputs validos
+    document.querySelector("[id=calculo_edades]").disabled = false;
+    desplegarFormularioEdades(cantidadIntegrantes);  
 }
 
 function desplegarFormularioEdades(cantidadIntegrantes){
     let nuevoInput = "";
     let nuevoParrafo = "";
-    let textoParrafo = "";
-   
+    let textoParrafo = "";  
     let divisor = ""; 
     const nodoPagina = document.querySelector("[id=formulario_ingreso_edades]");
   
@@ -64,92 +69,95 @@ i++;
 }
 */
 
-
-
 document.querySelector("[id=calculo_edades]").onclick = function() {
 
 //validar edades
-let cajas = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
-let senial = 0;
+let inputsConEdades = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
+let edadesValidadas = true;
 
-for (i=0; i<cajas.length;i++){
+for (i=0; i<inputsConEdades.length;i++){
   
-  if (cajas[i].value <1 || cajas[i].value > 120){
+  if (inputsConEdades[i].value <1 || inputsConEdades[i].value > 120){
     alert("Debe ingresar una edad entre 1 y 120");
-    senial = 1;
+    edadesValidadas = false;
 		return false;
   }
 }
-if (senial == 0){
+if (edadesValidadas === true){
   realizarCalculos();
 }
 }
 
 function realizarCalculos(){
-cajas = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
-let edades = [];
-for (i=0; i<cajas.length; i++){
-  edades[i] = Number(cajas[i].value);
+  inputsConEdades = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll("input");
+  let edades = [];
+
+  for (i=0; i<inputsConEdades.length; i++){
+    edades[i] = Number(inputsConEdades[i].value);
+  }
+
+  document.querySelector("#mayor_edad").innerText = `La mayor edad del grupo familiar es ${calcularMayorEdad(edades)}`;
+  document.querySelector("#menor_edad").innerText = `La menor edad del grupo familiar es ${calcularMenorEdad(edades)}`;
+  document.querySelector("#promedio_edad").innerText = `El promedio de edad del grupo familiar es ${calcularPromedioEdad(edades)}`;
 }
 
 //calcular la edad mas grande
-let edad_grande = 0; //lo defino afuera para que sea global y poder usarlo en el ejercicio 2
-						
-function calcularMayorEdad() {
-		for (i=0; i<edades.length; i++) {
-			if (edades[i] > edad_grande) {
-				edad_grande = edades[i];
-			}
-		}
-		return edad_grande;
-	}
-	
 
-function calcularMenorEdad(){
-  let edad_menor;
-  for (i=0; i<edades.length; i++){
-    if (edades[i] <= edad_grande){
-      edad_menor = edades[i];
-      edad_grande = edad_menor;
+						
+function calcularMayorEdad(edades) {
+  let edadGrande = 0; 
+  for (i=0; i<edades.length; i++) {
+    if (edades[i] > edadGrande) {
+      edadGrande = edades[i];
     }
   }
-  return edad_menor;
+  return edadGrande;
 }
 
-function calcularPromedioEdad(){
-  let suma_edades = 0;
+function calcularMenorEdad(edades){
+  
+  let edadMenor = 0;
+  //edadMenor = Math.min.apply(Math, edades); //este es un metodo de js que funciona perfecto
+
+  // lo hago "a pata"
+  edadMenor = edades[0];
   for (i=0; i<edades.length; i++){
-    suma_edades = suma_edades + edades[i];
+    if (edades[i] < edadMenor){
+      edadMenor = edades[i];  
+    }
   }
-  return suma_edades / edades.length;
+  return edadMenor;
 }
 
-
-
-document.querySelector("#mayor_edad").innerText = `La mayor edad del grupo familiar es ${calcularMayorEdad()}`;
-document.querySelector("#menor_edad").innerText = `La menor edad del grupo familiar es ${calcularMenorEdad()}`;
-document.querySelector("#promedio_edad").innerText = `El promedio de edad del grupo familiar es ${calcularPromedioEdad()}`;
-
+function calcularPromedioEdad(edades){
+  let sumaEdades = 0;
+  for (i=0; i<edades.length; i++){
+    sumaEdades = sumaEdades + edades[i];
+  }
+  return sumaEdades / edades.length;
 }
-
-
 
 borrar.onclick = (e)=> { 
  
   //vuelvo a activar el boton de mostrar formularios
-  document.getElementById("mostrar_formularios").disabled = false;
+  document.querySelector("[id=mostrar_formularios]").disabled = false;
 
-  let ems = document.querySelectorAll("em");
-  for (i=0; i < ems.length; i++){
-    ems[i].innerText = "";
+  //vuelvo a disablear el boton de realizar calculos de edades
+  document.querySelector("[id=calculo_edades]").disabled = true;
+
+  //esto tambien borra el em validacion_cantidad_integrantes en caso que se presione Borrar
+  //con ese em mostrando un mensaje
+  let tagsEmsConResultados = document.querySelectorAll("em");
+  for (i=0; i < tagsEmsConResultados.length; i++){
+    tagsEmsConResultados[i].innerText = "";
   }
   
-  document.getElementById('formulario_cantidad_integrantes').reset();
+document.querySelector("[id=formulario_cantidad_integrantes]").reset();
 
-let elementos = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll(".integrante");
+let tagsDivsConEdadesIntegrantes = document.querySelector("[id=formulario_ingreso_edades]").querySelectorAll(".integrante");
 
-for (i=0; i<elementos.length; i++){
-  elementos[i].remove();
+for (i=0; i<tagsDivsConEdadesIntegrantes.length; i++){
+  tagsDivsConEdadesIntegrantes[i].remove();
 }
 
 }
