@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Calculo de los Salarios de la Familia</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+
+<body style="width:80%; margin-left:auto; margin-right:auto;">
+  <h2>Calculo de los Salarios de la Familia</h2>
+
+  <form id="formulario_integrantes" style="width: 80%; border-width: 1px; border-color: black; border-style: solid; padding-bottom: 20px;">
+    <div style="padding-bottom: 20px;">
+      Utilice los botones "Agregar" y "Quitar" para establecer la cantidad de integrantes de la familia
+    </div>
+    <div>
+      <input type="button" value="Agregar integrante" id="agregar_integrante" />
+      <input type="button" value="Quitar integrante" id="quitar_integrante" />
+    </div>
+  </form>
+  
+  <form id="integrantes_familia" style="width: 80%; border-width: 1px; border-color: blue; border-style: solid;""></form>
+
+  </form>
+  
+  <div>
+    <em id="mayor_salario_anual"></em><br>
+    <em id="menor_salario_anual"></em><br>
+    <em id="salario_anual_promedio"></em><br>
+    <em id="salario_mensual_promedio"></em><br>
+  </form>
+    
+  <form>
+    <!-- calculo_salarios inicia disabled para no permitir hacer clic sin inputs creados -->
+    <input type="button" value="Calcular" id="calculo_salarios" disabled />
+    <input type="button" value="Borrar todo" id="borrar" />
+  </form>
+
+  <script src='calculos-salario-familia.js'></script>
+</body>
+</html>
+
